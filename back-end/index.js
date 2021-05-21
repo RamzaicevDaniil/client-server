@@ -31,6 +31,10 @@ app.get("/game", async (req, res, next) => {
 
     let obj = {"words": words, "trueIndex": randSwap, "trueWord": word};
     console.log(obj);
+    // В этот хэдер надо записывать хост фронта
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5000');
+    res.status(200);
+    res.send(obj)
     return obj;
 
   } catch (err) {
