@@ -4,9 +4,8 @@ const bodyParser = require("body-parser")
 const PORT = process.env.PORT || 3000
 const fs = require('fs');
 
-let rawdata = fs.readFileSync('./data/dictionary.json');
+let rawdata = fs.readFileSync('./data/dictionaryNew.json');
 let dict = JSON.parse(rawdata);
-console.log(dict);
 
 app.use(bodyParser.json())
 
@@ -19,13 +18,17 @@ app.get("/game", async (req, res, next) => {
 
     let min = 0;
     let max = dict.length;
-    let trueIndex = getRandomInt(min, max);
-    let fakeIndex1 = getRandomInt(min, max);
-    let fakeIndex2 = getRandomInt(min, max);
-
+    let words = [];
+    let fakeIndexes = [];
+    let i = 0;
+    while (i < 3) {
+      let fi = getRandomInt(min, max);
+      fakeIndexes.push(fi);
+      words.push(dict[fi]["WORD2"]);
+      i++;
+    }
     max = 3;
-    let word = dict[trueIndex]["WORD1"];
-    let words = [dict[trueIndex]["WORD2"], dict[fakeIndex1]["WORD2"], dict[fakeIndex2]["WORD2"]];
+    let word = dict[fakeIndexes[0]]["WORD1"];
     let randSwap = getRandomInt(min, max);
     [words[0], words[randSwap]] = [words[randSwap], words[0]];
 
